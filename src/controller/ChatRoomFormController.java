@@ -10,6 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class ChatRoomFormController {
 
@@ -17,6 +19,19 @@ public class ChatRoomFormController {
     public ScrollPane scrlPane;
     public VBox vBox;
     public AnchorPane contextChatRoom;
+    Socket socket;
+    final int PORT = 9999;
+
+    public void initialize(){
+        new Thread(() -> {
+            try {
+                socket = new Socket("localhost", PORT);
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     public void btnLeaveOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) contextChatRoom.getScene().getWindow();
@@ -24,5 +39,6 @@ public class ChatRoomFormController {
     }
 
     public void btnSendOnAction(ActionEvent actionEvent) {
+
     }
 }
