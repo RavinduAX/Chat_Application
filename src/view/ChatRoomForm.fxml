@@ -8,26 +8,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="577.0" prefWidth="726.0" style="-fx-background-color: #dfe4ea;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChatRoomFormController">
+<AnchorPane fx:id="contextChatRoom" prefHeight="577.0" prefWidth="769.0" style="-fx-background-color: #dfe4ea;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChatRoomFormController">
    <children>
       <Label layoutX="61.0" layoutY="19.0" text="Chat_Room">
          <font>
             <Font name="System Bold Italic" size="29.0" />
          </font>
       </Label>
-      <JFXButton layoutX="529.0" layoutY="488.0" prefHeight="38.0" prefWidth="134.0" style="-fx-background-color: #3867d6; -fx-background-radius: 30;" text="Send" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </JFXButton>
-      <JFXTextField layoutX="59.0" layoutY="488.0" prefHeight="38.0" prefWidth="439.0">
+      <JFXTextField fx:id="txtMassage" layoutX="59.0" layoutY="493.0" prefHeight="38.0" prefWidth="468.0">
          <font>
             <Font size="17.0" />
          </font>
       </JFXTextField>
-      <ScrollPane fitToWidth="true" layoutX="61.0" layoutY="79.0" prefHeight="370.0" prefWidth="602.0">
+      <JFXButton layoutX="577.0" layoutY="493.0" onAction="#btnSendOnAction" prefHeight="38.0" prefWidth="134.0" style="-fx-background-color: #3867d6; -fx-background-radius: 30;" text="Send" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="607.0" layoutY="22.0" onAction="#btnLeaveOnAction" prefHeight="38.0" prefWidth="104.0" style="-fx-background-color: #c0392b; -fx-background-radius: 30;" text="Leave" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </JFXButton>
+      <ScrollPane fx:id="scrlPane" fitToWidth="true" layoutX="60.0" layoutY="97.0" prefHeight="370.0" prefWidth="650.0">
          <content>
-            <VBox prefHeight="367.0" prefWidth="599.0" />
+            <VBox fx:id="vBox" prefHeight="367.0" prefWidth="651.0" />
          </content>
       </ScrollPane>
    </children>
