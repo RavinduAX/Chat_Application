@@ -22,15 +22,21 @@ public class ChatRoomFormController {
     public VBox vBox;
     public AnchorPane contextChatRoom;
     Socket socket;
+    String userName;
     final int PORT = 9999;
     DataInputStream dataInputStream;
     DataOutputStream dataOutputStream;
+
+    public ChatRoomFormController(String userName) {
+        this.userName = userName;
+    }
 
     public void initialize(){
         new Thread(() -> {
             try {
                 socket = new Socket("localhost", PORT);
-
+                dataInputStream = new DataInputStream(socket.getInputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
             }catch (IOException e){
                 e.printStackTrace();
             }

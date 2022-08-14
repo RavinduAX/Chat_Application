@@ -43,6 +43,7 @@ public class LoginFormController {
         String userName = txtUserName.getText();
         while(true) {
             ChatHandler chatHandler = new ChatHandler(socket, userName);
+            ChatRoomFormController chatRoomForm = new ChatRoomFormController(userName);
             Thread thread = new Thread(chatHandler);
             thread.start();
         }
