@@ -5,10 +5,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.DataInputStream;
@@ -62,9 +67,21 @@ public class ChatRoomFormController {
 
     public void btnSendOnAction(ActionEvent actionEvent) {
         try {
-            String sendMsg = txtMassage.getText();
-            dataOutputStream.writeUTF(sendMsg);
+            String msgToSend = txtMassage.getText();
+            dataOutputStream.writeUTF(msgToSend);
             dataOutputStream.flush();
+
+            HBox hBox = new HBox();
+            hBox.setAlignment(Pos.CENTER_RIGHT);
+            hBox.setPadding(new Insets(5,5,5,10));
+
+            Label label = new Label(msgToSend);
+            label.setStyle("-fx-background-color: #0f7df2;" + "-fx-background-radius: 20px;");
+            label.setPadding(new Insets(5,10,5,10));
+            label.setTextFill(Color.color(0.934,0.945,0.996));
+
+            hBox.getChildren().add(label);
+            vBox.getChildren().add(hBox);
 
         }catch (IOException e){
             e.printStackTrace();
@@ -80,6 +97,17 @@ public class ChatRoomFormController {
                 while(socket.isConnected()){
                     try {
                         msgFromGroupChat=dataInputStream.readUTF();
+                        HBox hBox = new HBox();
+                        hBox.setAlignment(Pos.CENTER_LEFT);
+                        hBox.setPadding(new Insets(5,5,5,10));
+
+                        Label label = new Label(msgFromGroupChat);
+                        label.setStyle("-fx-background-color: #EAEAEA;" + "-fx-background-radius: 20px;");
+                        label.setPadding(new Insets(5,10,5,10));
+                        label.setTextFill(Color.color(0.934,0.945,0.996));
+
+                        hBox.getChildren().add(label);
+                        vBox.getChildren().add(hBox);
 
                     }catch (IOException e){
                         e.printStackTrace();
