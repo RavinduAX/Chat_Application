@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,9 +25,9 @@ public class LoginFormController {
         new Thread(() -> {
             try {
                 serverSocket = new ServerSocket(PORT);
-                System.out.println("Server Conneced !");
+                System.out.println("Server Connected !");
                 socket = serverSocket.accept();
-                System.out.println("Client Conneced !");
+                System.out.println("Client Connected !");
 
             }catch (IOException e){
                 e.printStackTrace();
@@ -35,8 +37,7 @@ public class LoginFormController {
 
     public void btnLogInOnAction(ActionEvent actionEvent) throws IOException {
         String userName = txtUserName.getText();
-        System.out.println(userName);
-
+        ChatHandler chatHandler = new ChatHandler(socket, userName);
 //        Stage stage = new Stage();
 //        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ChatRoomForm.fxml"))));
 //        stage.setTitle("Chat Room");

@@ -9,6 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,6 +23,8 @@ public class ChatRoomFormController {
     public AnchorPane contextChatRoom;
     Socket socket;
     final int PORT = 9999;
+    DataInputStream dataInputStream;
+    DataOutputStream dataOutputStream;
 
     public void initialize(){
         new Thread(() -> {
