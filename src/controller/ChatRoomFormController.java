@@ -1,6 +1,8 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,6 +39,16 @@ public class ChatRoomFormController {
                 socket = new Socket("localhost", PORT);
                 dataInputStream = new DataInputStream(socket.getInputStream());
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+                listenForMsg();
+
+                vBox.heightProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        scrlPane.setVvalue((Double) newValue);
+                    }
+                });
+
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -49,6 +61,33 @@ public class ChatRoomFormController {
     }
 
     public void btnSendOnAction(ActionEvent actionEvent) {
+        try {
+            String sendMsg = txtMassage.getText();
+            dataOutputStream.writeUTF(sendMsg);
+            dataOutputStream.flush();
 
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
+
+    public void listenForMsg(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String msgFromGroupChat;
+
+                while(socket.isConnected()){
+                    try {
+                        msgFromGroupChat=dataInputStream.readUTF();
+
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }).start();
+    }
+
 }
