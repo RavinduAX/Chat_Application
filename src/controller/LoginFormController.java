@@ -20,6 +20,9 @@ public class LoginFormController {
     ServerSocket serverSocket;
     Socket socket;
     final int PORT = 9999;
+    String userName;
+
+    static String uName;
 
     public void initialize(){
         new Thread(() -> {
@@ -35,20 +38,12 @@ public class LoginFormController {
     }
 
     public void btnLogInOnAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) contextLogin.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ChatRoomForm.fxml"))));
-
-//        String userName = txtUserName.getText();
-//        while(true) {
-//            ChatHandler chatHandler = new ChatHandler(socket, userName);
-//            ChatRoomFormController chatRoomForm = new ChatRoomFormController(userName);
-//            Thread thread = new Thread(chatHandler);
-//            thread.start();
-//        }
-//        Stage stage = new Stage();
-//        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ChatRoomForm.fxml"))));
-//        stage.setTitle("Chat Room");
-//        stage.show();
+        userName = txtUserName.getText();
+        uName = userName;
+        Stage stage = new Stage();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("ChatRoomForm.fxml"))));
+        stage.setTitle(userName);
+        stage.show();
 
     }
 }
