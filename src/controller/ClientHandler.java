@@ -21,7 +21,7 @@ public class ClientHandler implements Runnable{
             this.dataInputStream = new DataInputStream(socket.getInputStream());
             this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
             clientHandlers.add(this);
-            //****
+            broadcastMsg(userName + " has entered the chat.\n");
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -30,21 +30,23 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         String msgFromClient;
-        try {
-            while (socket.isConnected()){
+
+        while (socket.isConnected()){
+            try {
                 msgFromClient = dataInputStream.readUTF();
                 broadcastMsg(msgFromClient);
+            }catch (IOException e){
+                e.printStackTrace();
             }
-        }catch (IOException e){
-            e.printStackTrace();
         }
     }
 
     public void broadcastMsg(String msgToSend){
         for (ClientHandler clientHandler : clientHandlers) {
             try {
-                if (!clientHandler.userName.equals(userName)){
+                if(!clientHandler.userName.equals(userName)){
                     clientHandler.dataOutputStream.writeUTF(msgToSend);
+                    clientHandler.dataOutputStream.flush();
                 }
             }catch (IOException e){
                 e.printStackTrace();
