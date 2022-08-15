@@ -34,10 +34,6 @@ public class ChatRoomFormController {
     DataInputStream dataInputStream;
     DataOutputStream dataOutputStream;
 
-    public ChatRoomFormController(String userName) {
-        this.userName = userName;
-    }
-
     public void initialize(){
         new Thread(() -> {
             try {
@@ -75,7 +71,7 @@ public class ChatRoomFormController {
             hBox.setAlignment(Pos.CENTER_RIGHT);
             hBox.setPadding(new Insets(5,5,5,10));
 
-            Label label = new Label(msgToSend);
+            Label label = new Label(userName+" - "+msgToSend);
             label.setStyle("-fx-background-color: #0f7df2;" + "-fx-background-radius: 20px;");
             label.setPadding(new Insets(5,10,5,10));
             label.setTextFill(Color.color(0.934,0.945,0.996));

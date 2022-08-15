@@ -24,12 +24,10 @@ public class LoginFormController {
     public void initialize(){
         new Thread(() -> {
             try {
-                while (true) {
                     serverSocket = new ServerSocket(PORT);
                     System.out.println("Server Connected !");
                     socket = serverSocket.accept();
                     System.out.println("Client Connected !");
-                }
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -40,13 +38,13 @@ public class LoginFormController {
         Stage stage = (Stage) contextLogin.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ChatRoomForm.fxml"))));
 
-        String userName = txtUserName.getText();
-        while(true) {
-            ChatHandler chatHandler = new ChatHandler(socket, userName);
-            ChatRoomFormController chatRoomForm = new ChatRoomFormController(userName);
-            Thread thread = new Thread(chatHandler);
-            thread.start();
-        }
+//        String userName = txtUserName.getText();
+//        while(true) {
+//            ChatHandler chatHandler = new ChatHandler(socket, userName);
+//            ChatRoomFormController chatRoomForm = new ChatRoomFormController(userName);
+//            Thread thread = new Thread(chatHandler);
+//            thread.start();
+//        }
 //        Stage stage = new Stage();
 //        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/ChatRoomForm.fxml"))));
 //        stage.setTitle("Chat Room");
