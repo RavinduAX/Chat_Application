@@ -17,6 +17,7 @@ public class LoginFormController {
 
     public JFXTextField txtUserName;
     public AnchorPane contextLogin;
+
     ServerSocket serverSocket;
     Socket socket;
     final int PORT = 9999;
@@ -28,9 +29,9 @@ public class LoginFormController {
         new Thread(() -> {
             try {
                     serverSocket = new ServerSocket(PORT);
-                    System.out.println("Server Connected !");
+                    System.out.println("Server Connected..!");
                     socket = serverSocket.accept();
-                    System.out.println("Client Connected !");
+                    System.out.println("Client Connected..!");
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -45,5 +46,13 @@ public class LoginFormController {
         stage.setTitle(userName);
         stage.show();
 
+        try {
+            ClientHandler clientHandler = new ClientHandler(userName, socket);
+            Thread thread = new Thread(clientHandler);
+            thread.start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        txtUserName.clear();
     }
 }

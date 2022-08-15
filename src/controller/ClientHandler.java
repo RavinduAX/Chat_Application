@@ -14,7 +14,7 @@ public class ClientHandler implements Runnable{
     DataOutputStream dataOutputStream;
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
 
-    public ClientHandler(Socket socket, String userName) {
+    public ClientHandler(String userName, Socket socket) {
         try {
             this.socket=socket;
             this.userName=userName;
