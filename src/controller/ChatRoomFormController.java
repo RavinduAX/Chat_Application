@@ -37,19 +37,19 @@ public class ChatRoomFormController {
     public void initialize(){
         new Thread(() -> {
             try {
-                socket = new Socket("localhost", PORT);
-                dataInputStream = new DataInputStream(socket.getInputStream());
-                dataOutputStream = new DataOutputStream(socket.getOutputStream());
-
+                this.socket = new Socket("localhost", PORT);
+                this.userName=LoginFormController.uName;
+                this.dataInputStream = new DataInputStream(socket.getInputStream());
+                this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 listenForMsg();
 
+                //vbox property
                 vBox.heightProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                         scrlPane.setVvalue((Double) newValue);
                     }
                 });
-
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -58,26 +58,30 @@ public class ChatRoomFormController {
 
     public void btnLeaveOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) contextChatRoom.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/LoginForm.fxml"))));
+        stage.close();
     }
 
     public void btnSendOnAction(ActionEvent actionEvent) {
         try {
-            String msgToSend = txtMassage.getText();
-            dataOutputStream.writeUTF(msgToSend);
-            dataOutputStream.flush();
 
-            HBox hBox = new HBox();
-            hBox.setAlignment(Pos.CENTER_RIGHT);
-            hBox.setPadding(new Insets(5,5,5,10));
+            while (socket.isConnected()) { //***************
+                String msgSend = txtMassage.getText();
+                dataOutputStream.writeUTF(userName + "-" + msgSend);
+                dataOutputStream.flush();
 
-            Label label = new Label(userName+" - "+msgToSend);
-            label.setStyle("-fx-background-color: #0f7df2;" + "-fx-background-radius: 20px;");
-            label.setPadding(new Insets(5,10,5,10));
-            label.setTextFill(Color.color(0.934,0.945,0.996));
+                HBox hBox = new HBox();
+                hBox.setAlignment(Pos.CENTER_RIGHT);
+                hBox.setPadding(new Insets(5, 5, 5, 10));
 
-            hBox.getChildren().add(label);
-            vBox.getChildren().add(hBox);
+                Label label = new Label(msgSend);
+                label.setStyle("-fx-background-color: #0f7df2;" + "-fx-background-radius: 20px;");
+                label.setPadding(new Insets(5, 10, 5, 10));
+                label.setTextFill(Color.color(0.934, 0.945, 0.996));
+
+                hBox.getChildren().add(label);
+                vBox.getChildren().add(hBox);
+
+            } /************/
 
         }catch (IOException e){
             e.printStackTrace();
@@ -109,7 +113,6 @@ public class ChatRoomFormController {
                         e.printStackTrace();
                     }
                 }
-
             }
         }).start();
     }
